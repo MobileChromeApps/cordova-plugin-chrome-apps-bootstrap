@@ -98,12 +98,14 @@ exports.bgInit = function(bgWnd) {
   }
   bgWnd.addEventListener('load', onLoad, false);
 
+  var urlBase = location.href.replace(/\/plugins\/.*?$/, '/');
+  var urlPrefix = cordova.platformId == 'android' ? urlBase : '';
   bgWnd.history.replaceState(null, null, runtime.getURL('_generated_background_page.html'));
 
   var scripts = manifestJson.app.background.scripts;
   var toWrite = '';
   for (var i = 0, src; src = scripts[i]; ++i) {
-    toWrite += '<script src="' + encodeURI(src) + '"></sc' + 'ript>\n';
+    toWrite += '<script src="' + urlPrefix + encodeURI(src) + '"></script>\n';
   }
   bgWnd.document.write(toWrite);
 };
