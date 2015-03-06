@@ -5,7 +5,10 @@ Use of this source code is governed by a BSD-style license that can be
 found in the LICENSE file.
 -->
 <html>
+    <head>
+        <meta http-equiv="Content-Security-Policy" content="This gets injected by cca">
+    </head>
   <body>
-    <script>parent.chrome.mobile.impl.bgInit(this)</script>
+    <script src="bgboot.js"></script>
   </body>
 </html>

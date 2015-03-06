@@ -47,7 +47,7 @@ function restoreWindowOpen(context) {
   delete context.open;
 }
 
-exports.boot = function() {
+function boot() {
   // Add a deviceready listener that initializes the Chrome wrapper.
   channel.onCordovaReady.subscribe(function() {
     // Delay bootstrap until all deviceready event dependancies fire, minus DOMContentLoaded, since that one is purposely being blocked by bootstrap
@@ -167,3 +167,4 @@ function fireLifecycleEvents(manifestJson) {
   });
 }
 
+require('cordova/channel').onPluginsReady.subscribe(boot);
