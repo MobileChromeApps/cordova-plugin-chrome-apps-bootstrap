@@ -11,10 +11,40 @@ import android.net.Uri;
 public class ChromeExtensionURLs extends CordovaPlugin {
 
     RequestModifyInterface i18nPlugin;
+    private String baseUrl;
 
     static interface RequestModifyInterface
     {
         public Uri remapChromeUri(Uri uri);
+    }
+
+    public Uri remapToRealLocation(Uri uri) {
+        // Add this check just to make plugin work with older versions of CCA.
+        String base = baseUrl == null ? "file:///android_asset/www" : baseUrl;
+        String filePath = uri.getPath();
+        uri = Uri.parse(base + filePath);
+        uri = webView.getResourceApi().remapUri(uri);
+        return uri;
+    }
+
+    // @Override
+    public Boolean shouldAllowNavigation(String url) {
+        if (baseUrl == null) {
+            baseUrl = url.replaceAll("/plugins/.*?$", "");
+        }
+        // Required for iframes.
+        if (url.startsWith("chrome-extension:")) {
+            return true;
+        }
+        return super.shouldAllowNavigation(url);
+    }
+
+    // @Override
+    public Boolean shouldAllowRequest(String url) {
+        if (url.startsWith("chrome-extension:")) {
+            return true;
+        }
+        return super.shouldAllowRequest(url);
     }
 
     @Override
@@ -25,9 +55,8 @@ public class ChromeExtensionURLs extends CordovaPlugin {
         if (!uri.getScheme().equals("chrome-extension")) {
             return null;
         }
-        String filePath = uri.getPath();
 
-        if ("/chrome-content-loaded".equals(filePath)) {
+        if ("/chrome-content-loaded".equals(uri.getPath())) {
             return Uri.parse("data:text/javascript,Object.defineProperty%28document%2C%20%27readyState%27%2C%20%7Bget%3A%20function%28%29%20%7B%20return%20%27loading%27%7D%2C%20configurable%3A%20true%20%7D%29%3B");
         }
 
@@ -37,8 +66,7 @@ public class ChromeExtensionURLs extends CordovaPlugin {
         
         // i18n can return data URIs.
         if (uri.getScheme().equals("chrome-extension")) {
-            uri = Uri.parse("file:///android_asset/www" + filePath);
-            uri = webView.getResourceApi().remapUri(uri);
+            uri = remapToRealLocation(uri);
         }
 
         // We need the input stream below for the modifyResponseInputStream. So we load using a separate request.
