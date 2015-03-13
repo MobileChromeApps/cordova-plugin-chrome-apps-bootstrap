@@ -47,14 +47,13 @@ function restoreWindowOpen(context) {
   delete context.open;
 }
 
-function boot() {
+exports.fgInit = function() {
   // Add a deviceready listener that initializes the Chrome wrapper.
   channel.onCordovaReady.subscribe(function() {
     // Delay bootstrap until all deviceready event dependancies fire, minus DOMContentLoaded, since that one is purposely being blocked by bootstrap
     // We do this delay so that plugins have a chance to initialize using the bridge before we load the chrome app background scripts/event page
     var channelsToWaitFor = channel.deviceReadyChannelsArray.filter(function(c) { return c.type !== 'onDOMContentLoaded'; });
     channel.join(function() {
-
       // Undo the clobber of window.open by InAppBrowser
       restoreWindowOpen(exports.fgWindow);
 
@@ -168,5 +167,3 @@ function fireLifecycleEvents(manifestJson) {
     });
   });
 }
-
-require('cordova/channel').onPluginsReady.subscribe(boot);
