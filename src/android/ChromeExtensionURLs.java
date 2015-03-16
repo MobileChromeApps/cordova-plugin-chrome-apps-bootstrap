@@ -27,11 +27,17 @@ public class ChromeExtensionURLs extends CordovaPlugin {
         return uri;
     }
 
-    // @Override
-    public Boolean shouldAllowNavigation(String url) {
-        if (baseUrl == null) {
+    @Override
+    public Object onMessage(String id, Object data) {
+        if (baseUrl == null && "onPageStarted".equals(id)) {
+            String url = (String)data;
             baseUrl = url.replaceAll("/plugins/.*?$", "");
         }
+        return null;
+    }
+
+    // @Override
+    public Boolean shouldAllowNavigation(String url) {
         // Required for iframes.
         if (url.startsWith("chrome-extension:")) {
             return true;
