@@ -2,6 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+/* global backgroundapp */
+
 var channel = require('cordova/channel');
 var runtime = require('org.chromium.runtime.runtime');
 var app_runtime = require('org.chromium.runtime.app.runtime');
@@ -54,6 +56,13 @@ exports.fgInit = function() {
     // We do this delay so that plugins have a chance to initialize using the bridge before we load the chrome app background scripts/event page
     var channelsToWaitFor = channel.deviceReadyChannelsArray.filter(function(c) { return c.type !== 'onDOMContentLoaded'; });
     channel.join(function() {
+      // If background app plugin is included, handle event to switch from
+      // background execution
+      var backgroundAvailable = typeof backgroundapp !== 'undefined';
+      if (backgroundAvailable) {
+        backgroundapp.onSwitchToForeground.addListener(fireOnLaunched);
+      }
+
       // Undo the clobber of window.open by InAppBrowser
       restoreWindowOpen(exports.fgWindow);
 
@@ -150,14 +159,7 @@ function fireLifecycleEvents(manifestJson) {
         //  - Better handles race conditions where native events from plugins
         //    are sent before this initialization is complete
         if (data) {
-          app_runtime.onLaunched._fireInternal();
-          // Log a warning if no window is created after a bit of a grace period.
-          setTimeout(function() {
-            var app_window = require('org.chromium.bootstrap.app.window');
-            if (!app_window.current()) {
-              console.warn('No page loaded because chrome.app.window.create() was never called.');
-            }
-          }, 500);
+          fireOnLaunched();
         }
         for (var i = 0; i < exports.lifeCycleEventFuncs.length; ++i) {
           exports.lifeCycleEventFuncs[i]();
@@ -167,3 +169,15 @@ function fireLifecycleEvents(manifestJson) {
     });
   });
 }
+
+function fireOnLaunched() {
+  app_runtime.onLaunched._fireInternal();
+  // Log a warning if no window is created after a bit of a grace period.
+  setTimeout(function() {
+    var app_window = require('org.chromium.bootstrap.app.window');
+    if (!app_window.current()) {
+      console.warn('No page loaded because chrome.app.window.create() was never called.');
+    }
+  }, 500);
+}
+
