@@ -26,6 +26,14 @@ The API references are:
 
 # Release Notes
 
+## 2.0.0 (Mar 17, 2015)
+* Update to work with non-`file:///android_asset` start pages and fix `chrome-extension:` iframes
+* Use absolute URLs in bgpage on android to avoid Xwalk boot flakiness (fixes #326)
+* Make bootstrap CSP-compatible
+* Restore `window.open` to not activate InAppBrowser plugin
+* Fix race conditions causing onLaunched not to fire
+* MCA #525 Blank screen when app switched to foreground
+
 ## 1.1.3 (Jan 28, 2015)
 * Undo: Move setting of gradle properties from js to chrome-bootstrap gradle, since it broke older cca versions
 
