@@ -42,7 +42,7 @@ public class ChromeExtensionURLs extends CordovaPlugin {
         if (url.startsWith("chrome-extension:")) {
             return true;
         }
-        return super.shouldAllowNavigation(url);
+        return null;
     }
 
     // @Override
@@ -50,7 +50,7 @@ public class ChromeExtensionURLs extends CordovaPlugin {
         if (url.startsWith("chrome-extension:")) {
             return true;
         }
-        return super.shouldAllowRequest(url);
+        return null;
     }
 
     @Override
