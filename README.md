@@ -26,6 +26,9 @@ The API references are:
 
 # Release Notes
 
+## 2.0.1 (Mar 18, 2015)
+* Fix android compile error when used with `cca@0.5.1`
+
 ## 2.0.0 (Mar 17, 2015)
 * Update to work with non-`file:///android_asset` start pages and fix `chrome-extension:` iframes
 * Use absolute URLs in bgpage on android to avoid Xwalk boot flakiness (fixes #326)
