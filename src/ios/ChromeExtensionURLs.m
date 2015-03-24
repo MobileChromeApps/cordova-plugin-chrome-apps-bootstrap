@@ -8,6 +8,7 @@
 
 #import <Cordova/CDVPlugin.h>
 #import <Cordova/CDVViewController.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 
 @interface ChromeExtensionURLs : CDVPlugin
 @end
@@ -21,6 +22,27 @@ static NSString* const kChromeExtensionURLScheme = @"chrome-extension";
 static ChromeURLProtocol *outstandingDelayRequest = nil;
 static NSString* pathPrefix = nil;
 static BOOL registeredProtocol = NO;
+
+static NSString* determineMimeType(NSString* path) {
+    CFStringRef typeId = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)[path pathExtension], NULL);
+    NSString* mimeType = @"application/octet-stream";
+    if (typeId) {
+        mimeType = (__bridge_transfer NSString*)UTTypeCopyPreferredTagWithClass(typeId, kUTTagClassMIMEType);
+        if (!mimeType) {
+            // Taken from file plugin
+            if ([(__bridge NSString*)typeId rangeOfString : @"m4a-audio"].location != NSNotFound) {
+                mimeType = @"audio/mp4";
+            } else if ([[path pathExtension] rangeOfString:@"wav"].location != NSNotFound) {
+                mimeType = @"audio/wav";
+            } else if ([[path pathExtension] rangeOfString:@"css"].location != NSNotFound) {
+                mimeType = @"text/css";
+            }
+        }
+        CFRelease(typeId);
+    }
+    return mimeType;
+}
+
 
 #pragma mark ChromeExtensionURLs
 
@@ -94,44 +116,26 @@ static BOOL registeredProtocol = NO;
     } else {
         // pathString always starts with a /.
         NSString *path = [pathPrefix stringByAppendingString:pathString];
-        // Use a NSURLConnection to play nice with App Harness.
-        NSMutableURLRequest* req = [[self request] mutableCopy];
-        [req setURL:[NSURL fileURLWithPath:path]];
-        _activeConnection = [[NSURLConnection alloc] initWithRequest:req delegate:self];
+        NSData* data = [NSData dataWithContentsOfFile:path options:NSDataReadingMappedIfSafe error:nil];
+        
+        if (!data) {
+            NSDictionary* headers = @{@"Cache-Control": @"no-cache"};
+            NSURLResponse *resp = [[NSHTTPURLResponse alloc] initWithURL:url statusCode:404 HTTPVersion:@"HTTP/1.1" headerFields:headers];
+            [[self client] URLProtocol:self didReceiveResponse:resp cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+        } else {
+            NSString* mimeType = determineMimeType(path);
+            NSDictionary* headers = @{@"Cache-Control": @"no-cache",
+                                      @"Content-Type": mimeType,
+                                      @"Content-Length": [@(data.length) description]};
+            NSURLResponse *resp = [[NSHTTPURLResponse alloc] initWithURL:url statusCode:200 HTTPVersion:@"HTTP/1.1" headerFields:headers];
+            [[self client] URLProtocol:self didReceiveResponse:resp cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+            [[self client] URLProtocol:self didLoadData:data];
+        }
+        [[self client] URLProtocolDidFinishLoading:self];
     }
 }
 
 - (void)stopLoading {
-    [_activeConnection cancel];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    // Create a new response rather than forwarding the parameter in order to fix up the URL.
-    NSDictionary* headers = [NSDictionary dictionaryWithObjectsAndKeys:
-                             @"no-cache", @"Cache-Control",
-                             [NSString stringWithFormat:@"%lld", [response expectedContentLength]], @"Content-Length",
-                             [response MIMEType], @"Content-Type", // Ignore if MIMEType method return nil.
-                             nil];
-    NSURLResponse *resp = [[NSHTTPURLResponse alloc] initWithURL:[[self request] URL] statusCode:200 HTTPVersion:@"HTTP/1.1" headerFields:headers];
-
-    [[self client] URLProtocol:self didReceiveResponse:resp cacheStoragePolicy:NSURLCacheStorageNotAllowed];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    [[self client] URLProtocol:self didLoadData:data];
-}
-
-- (NSCachedURLResponse *)connection:(NSURLConnection *)connection
-                  willCacheResponse:(NSCachedURLResponse*)cachedResponse {
-    return nil;
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    [[self client] URLProtocolDidFinishLoading:self];
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    [[self client] URLProtocol:self didFailWithError:error];
 }
 
 @end
