@@ -26,6 +26,9 @@ The API references are:
 
 # Release Notes
 
+## 2.0.2 (Mar 24, 2015)
+* Use file ops rather than NSUrlConnection to fix broken behaviour with 404s
+
 ## 2.0.1 (Mar 18, 2015)
 * Fix android compile error when used with `cca@0.5.1`
 
