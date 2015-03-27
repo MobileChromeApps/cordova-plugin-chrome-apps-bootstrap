@@ -25,24 +25,25 @@ static BOOL registeredProtocol = NO;
 
 static NSString* determineMimeType(NSString* path) {
     CFStringRef typeId = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)[path pathExtension], NULL);
-    NSString* mimeType = @"application/octet-stream";
+    NSString* mimeType = nil;
     if (typeId) {
         mimeType = (__bridge_transfer NSString*)UTTypeCopyPreferredTagWithClass(typeId, kUTTagClassMIMEType);
-        if (!mimeType) {
-            // Taken from file plugin
-            if ([(__bridge NSString*)typeId rangeOfString : @"m4a-audio"].location != NSNotFound) {
-                mimeType = @"audio/mp4";
-            } else if ([[path pathExtension] rangeOfString:@"wav"].location != NSNotFound) {
-                mimeType = @"audio/wav";
-            } else if ([[path pathExtension] rangeOfString:@"css"].location != NSNotFound) {
-                mimeType = @"text/css";
-            }
-        }
         CFRelease(typeId);
+    }
+    if (!mimeType) {
+        // Taken from file plugin
+        if ([(__bridge NSString*)typeId rangeOfString : @"m4a-audio"].location != NSNotFound) {
+            mimeType = @"audio/mp4";
+        } else if ([[path pathExtension] rangeOfString:@"wav"].location != NSNotFound) {
+            mimeType = @"audio/wav";
+        } else if ([[path pathExtension] rangeOfString:@"css"].location != NSNotFound) {
+            mimeType = @"text/css";
+        } else {
+            mimeType = @"application/octet-stream";
+        }
     }
     return mimeType;
 }
-
 
 #pragma mark ChromeExtensionURLs
 
