@@ -171,10 +171,14 @@ function fireLifecycleEvents(manifestJson) {
 }
 
 function fireOnLaunched() {
+  var app_window = require('org.chromium.bootstrap.app.window');
+  // Don't fire if create() has already been called.
+  if (app_window.current()) {
+    return;
+  }
   app_runtime.onLaunched._fireInternal();
   // Log a warning if no window is created after a bit of a grace period.
   setTimeout(function() {
-    var app_window = require('org.chromium.bootstrap.app.window');
     if (!app_window.current()) {
       console.warn('No page loaded because chrome.app.window.create() was never called.');
     }
