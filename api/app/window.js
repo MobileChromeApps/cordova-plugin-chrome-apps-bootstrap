@@ -50,7 +50,11 @@ AppWindow.prototype.hide = function() {
   exec(null, null, 'ChromeAppWindow', 'hide', []);
 };
 AppWindow.prototype.show = function(focused) {
-  exec(null, null, 'ChromeAppWindow', 'show', []);
+  if (cordova.backgroundapp) {
+    cordova.backgroundapp.show();
+  } else {
+    console.warn('window.show() is not supported on this platform');
+  }
 };
 AppWindow.prototype.restore = function() {
   // Same behaviour as show, given minimize/maximize don't really make sense on mobile

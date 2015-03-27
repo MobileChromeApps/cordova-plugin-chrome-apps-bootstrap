@@ -38,6 +38,9 @@
   <asset src="www/fgboot.js" target="plugins/org.chromium.bootstrap/fgboot.js" />
 
   <platform name="android">
+    <!-- TODO: Add @1 to version after next cordova-lib release -->
+    <dependency id="org.chromium.backgroundapp" />
+
     <source-file src="src/android/ChromeAppWindow.java" target-dir="src/org/chromium" />
     <source-file src="src/android/ChromeBootstrap.java" target-dir="src/org/chromium" />
     <!-- Convert 'chrome-extension://' urls -->

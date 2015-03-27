@@ -2,8 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-/* global backgroundapp */
-
+var cordova = require('cordova');
 var channel = require('cordova/channel');
 var runtime = require('org.chromium.runtime.runtime');
 var app_runtime = require('org.chromium.runtime.app.runtime');
@@ -58,10 +57,11 @@ exports.fgInit = function() {
     channel.join(function() {
       // If background app plugin is included, handle event to switch from
       // background execution
-      var backgroundAvailable = typeof backgroundapp !== 'undefined';
-      if (backgroundAvailable) {
-        backgroundapp.onSwitchToForeground.addListener(fireOnLaunched);
-      }
+      document.addEventListener('resume', function() {
+        if (cordova.backgroundapp.resumeType == 'normal-launch') {
+          fireOnLaunched();
+        }
+      });
 
       // Undo the clobber of window.open by InAppBrowser
       restoreWindowOpen(exports.fgWindow);
