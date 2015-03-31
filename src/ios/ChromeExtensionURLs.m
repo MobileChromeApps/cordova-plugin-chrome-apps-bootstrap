@@ -27,14 +27,16 @@ static NSString* determineMimeType(NSString* path) {
     CFStringRef typeId = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)[path pathExtension], NULL);
     NSString* mimeType = nil;
     if (typeId) {
-        mimeType = (__bridge_transfer NSString*)UTTypeCopyPreferredTagWithClass(typeId, kUTTagClassMIMEType);
+        if ([(__bridge NSString*)typeId rangeOfString : @"m4a-audio"].location != NSNotFound) {
+            mimeType = @"audio/mp4";
+        } else {
+            mimeType = (__bridge_transfer NSString*)UTTypeCopyPreferredTagWithClass(typeId, kUTTagClassMIMEType);
+        }
         CFRelease(typeId);
     }
     if (!mimeType) {
         // Taken from file plugin
-        if ([(__bridge NSString*)typeId rangeOfString : @"m4a-audio"].location != NSNotFound) {
-            mimeType = @"audio/mp4";
-        } else if ([[path pathExtension] rangeOfString:@"wav"].location != NSNotFound) {
+        if ([[path pathExtension] rangeOfString:@"wav"].location != NSNotFound) {
             mimeType = @"audio/wav";
         } else if ([[path pathExtension] rangeOfString:@"css"].location != NSNotFound) {
             mimeType = @"text/css";
