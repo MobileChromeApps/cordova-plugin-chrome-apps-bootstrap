@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-registerManualTests('chrome.app.window', function(rootEl, addButton) {
+exports.defineManualTests = function(rootEl, addButton) {
   var $document = rootEl.ownerDocument;
 
   $document.addEventListener("pause", function onPause() {
@@ -38,4 +38,4 @@ registerManualTests('chrome.app.window', function(rootEl, addButton) {
     chrome.app.window.current().hide();
   });
 
-});
+};
