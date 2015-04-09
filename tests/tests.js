@@ -43,6 +43,8 @@ exports.defineManualTests = function(rootEl, addButton) {
 exports.defineAutoTests = function() {
   'use strict';
 
+  require('cordova-plugin-chrome-apps-test-framework.jasmine_helpers').addJasmineHelpers();
+
   describe('chrome.app.window', function() {
     var customMatchers = {
       toBeArray : function(util, customEqualityTesters){
