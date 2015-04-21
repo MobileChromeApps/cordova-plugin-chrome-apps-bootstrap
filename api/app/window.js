@@ -7,6 +7,7 @@ var Event = require('org.chromium.common.events');
 var mobile = require('org.chromium.bootstrap.mobile.impl');
 var runtime = require('org.chromium.runtime.runtime');
 var ChromeExtensionURLs = require('org.chromium.bootstrap.helpers.ChromeExtensionURLs');
+var backgroundApp = require('org.chromium.backgroundapp.backgroundapp');
 
 // The AppWindow created by chrome.app.window.create.
 var createdAppWindow = null;
@@ -50,8 +51,8 @@ AppWindow.prototype.hide = function() {
   exec(null, null, 'ChromeAppWindow', 'hide', []);
 };
 AppWindow.prototype.show = function(focused) {
-  if (cordova.backgroundapp) {
-    cordova.backgroundapp.show();
+  if (backgroundApp) {
+    backgroundApp.show();
   } else {
     console.warn('window.show() is not supported on this platform');
   }

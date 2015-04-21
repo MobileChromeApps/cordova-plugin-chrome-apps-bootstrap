@@ -7,6 +7,7 @@ var channel = require('cordova/channel');
 var runtime = require('org.chromium.runtime.runtime');
 var app_runtime = require('org.chromium.runtime.app.runtime');
 var storage = require('org.chromium.storage.Storage');
+var backgroundApp = require('org.chromium.backgroundapp.backgroundapp');
 // Make sure the "isChromeApp" var gets set before replaceState().
 require('org.chromium.common.helpers');
 
@@ -58,7 +59,7 @@ exports.fgInit = function() {
       // If background app plugin is included, handle event to switch from
       // background execution
       document.addEventListener('resume', function() {
-        if (cordova.backgroundapp.resumeType == 'normal-launch') {
+        if (backgroundApp.resumeType == 'normal-launch') {
           fireOnLaunched();
         }
       });
