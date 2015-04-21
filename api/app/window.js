@@ -2,12 +2,13 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+var cordova = require('cordova');
 var exec = require('cordova/exec');
 var Event = require('org.chromium.common.events');
 var mobile = require('org.chromium.bootstrap.mobile.impl');
 var runtime = require('org.chromium.runtime.runtime');
 var ChromeExtensionURLs = require('org.chromium.bootstrap.helpers.ChromeExtensionURLs');
-var backgroundApp = require('org.chromium.backgroundapp.backgroundapp');
+var backgroundapp = require('org.chromium.backgroundapp.backgroundapp');
 
 // The AppWindow created by chrome.app.window.create.
 var createdAppWindow = null;
@@ -51,10 +52,10 @@ AppWindow.prototype.hide = function() {
   exec(null, null, 'ChromeAppWindow', 'hide', []);
 };
 AppWindow.prototype.show = function(focused) {
-  if (backgroundApp) {
-    backgroundApp.show();
+  if (backgroundapp.show) {
+    backgroundapp.show();
   } else {
-    console.warn('window.show() is not supported on this platform');
+    console.warn('AppWindow.show() not implemented for ' + cordova.platformId);
   }
 };
 AppWindow.prototype.restore = function() {

@@ -19,6 +19,9 @@
   <dependency id="org.chromium.common" />
   <dependency id="org.chromium.runtime" />
   <dependency id="org.chromium.storage" />
+  <!-- TODO: Add @2 to version after next cordova-lib release -->
+  <dependency id="org.chromium.backgroundapp" />
+
 
   <!-- Javascript modules. Note that some module names differ from the chrome API locations -->
   <js-module src="api/app/window.js" name="app.window">
@@ -38,11 +41,7 @@
   <asset src="www/fgboot.js" target="plugins/org.chromium.bootstrap/fgboot.js" />
 
   <platform name="android">
-    <!-- TODO: Add @1 to version after next cordova-lib release -->
-    <dependency id="org.chromium.backgroundapp" />
-
     <source-file src="src/android/ChromeAppWindow.java" target-dir="src/org/chromium" />
-    <source-file src="src/android/ChromeBootstrap.java" target-dir="src/org/chromium" />
     <!-- Convert 'chrome-extension://' urls -->
     <source-file src="src/android/ChromeExtensionURLs.java" target-dir="src/org/chromium" />
 
@@ -51,10 +50,6 @@
     <config-file target="res/xml/config.xml" parent="/widget">
       <feature name="ChromeAppWindow">
         <param name="android-package" value="org.chromium.ChromeAppWindow"/>
-      </feature>
-      <feature name="ChromeBootstrap">
-        <param name="android-package" value="org.chromium.ChromeBootstrap"/>
-        <param name="onload" value="true"/>
       </feature>
       <feature name="ChromeExtensionURLs">
         <param name="android-package" value="org.chromium.ChromeExtensionURLs"/>
@@ -69,7 +64,6 @@
 
   <platform name="ios">
     <source-file src="src/ios/ChromeAppWindow.m" />
-    <source-file src="src/ios/ChromeBootstrap.m" />
     <source-file src="src/ios/ChromeExtensionURLs.m" />
 
     <js-module src="api/helpers/ChromeExtensionURLs.ios.js" name="helpers.ChromeExtensionURLs" />
@@ -77,10 +71,6 @@
     <config-file target="config.xml" parent="/widget">
       <feature name="ChromeAppWindow">
         <param name="ios-package" value="ChromeAppWindow"/>
-      </feature>
-      <feature name="ChromeBootstrap">
-        <param name="ios-package" value="ChromeBootstrap"/>
-        <param name="onload" value="true"/>
       </feature>
       <feature name="ChromeExtensionURLs">
         <param name="ios-package" value="ChromeExtensionURLs"/>

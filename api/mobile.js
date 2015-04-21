@@ -7,7 +7,7 @@ var channel = require('cordova/channel');
 var runtime = require('org.chromium.runtime.runtime');
 var app_runtime = require('org.chromium.runtime.app.runtime');
 var storage = require('org.chromium.storage.Storage');
-var backgroundApp = require('org.chromium.backgroundapp.backgroundapp');
+var backgroundapp = require('org.chromium.backgroundapp.backgroundapp');
 // Make sure the "isChromeApp" var gets set before replaceState().
 require('org.chromium.common.helpers');
 
@@ -59,7 +59,7 @@ exports.fgInit = function() {
       // If background app plugin is included, handle event to switch from
       // background execution
       document.addEventListener('resume', function() {
-        if (backgroundApp.resumeType == 'normal-launch') {
+        if (backgroundapp.resumeType == 'normal-launch') {
           fireOnLaunched();
         }
       });
@@ -151,27 +151,20 @@ function fireLifecycleEvents(manifestJson) {
         runtime.onInstalled._fireInternal(installDetails);
       }
       // If launching for UI, fire onLaunched event
-      var exec = require("cordova/exec");
-      exec(function(data) {
-        // Native side will return flag indicating if app was launched for UI,
-        // vs started by some background event (e.g. alarm, notification, .etc)
-        //  - This means that onLaunched could be fired *and* life cycle funcs
-        //    could be executed as well
-        //  - Better handles race conditions where native events from plugins
-        //    are sent before this initialization is complete
-        if (data) {
-          fireOnLaunched();
-        }
-        for (var i = 0; i < exports.lifeCycleEventFuncs.length; ++i) {
-          exports.lifeCycleEventFuncs[i]();
-        }
-        exports.lifeCycleEventFuncs = null;
-      }, null, "ChromeBootstrap", "doesNeedLaunch", []);
+      if (backgroundapp.resumeType) {
+        fireOnLaunched();
+      }
+      for (var i = 0; i < exports.lifeCycleEventFuncs.length; ++i) {
+        exports.lifeCycleEventFuncs[i]();
+      }
+      exports.lifeCycleEventFuncs = null;
     });
   });
 }
 
 function fireOnLaunched() {
+  // Execute this only once.
+  fireOnLaunched = function() {};
   var app_window = require('org.chromium.bootstrap.app.window');
   // Don't fire if create() has already been called.
   if (app_window.current()) {
