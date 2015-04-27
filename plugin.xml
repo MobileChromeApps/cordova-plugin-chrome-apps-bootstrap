@@ -32,11 +32,11 @@
   </js-module>
 
   <!-- Integration files -->
-  <asset src="www/chromeapp.html" target="plugins/org.chromium.bootstrap/chromeapp.html" />
-  <asset src="www/chromebgpage.html" target="plugins/org.chromium.bootstrap/chromebgpage.html" />
-  <asset src="www/chromeappstyles.css" target="plugins/org.chromium.bootstrap/chromeappstyles.css" />
-  <asset src="www/bgboot.js" target="plugins/org.chromium.bootstrap/bgboot.js" />
-  <asset src="www/fgboot.js" target="plugins/org.chromium.bootstrap/fgboot.js" />
+  <asset src="www/chromeapp.html" target="plugins/cordova-plugin-chrome-apps-bootstrap/chromeapp.html" />
+  <asset src="www/chromebgpage.html" target="plugins/cordova-plugin-chrome-apps-bootstrap/chromebgpage.html" />
+  <asset src="www/chromeappstyles.css" target="plugins/cordova-plugin-chrome-apps-bootstrap/chromeappstyles.css" />
+  <asset src="www/bgboot.js" target="plugins/cordova-plugin-chrome-apps-bootstrap/bgboot.js" />
+  <asset src="www/fgboot.js" target="plugins/cordova-plugin-chrome-apps-bootstrap/fgboot.js" />
 
   <platform name="android">
     <source-file src="src/android/ChromeAppWindow.java" target-dir="src/org/chromium" />
