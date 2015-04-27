@@ -16,12 +16,10 @@
   <repo>https://github.com/MobileChromeApps/mobile-chrome-apps.git</repo>
   <issue>https://github.com/MobileChromeApps/mobile-chrome-apps/issues</issue>
 
-  <dependency id="org.chromium.common" />
-  <dependency id="org.chromium.runtime" />
-  <dependency id="org.chromium.storage" />
-  <!-- TODO: Add @2 to version after next cordova-lib release -->
-  <dependency id="org.chromium.backgroundapp" />
-
+  <dependency id="cordova-plugin-chrome-apps-common" />
+  <dependency id="cordova-plugin-chrome-apps-runtime" />
+  <dependency id="cordova-plugin-chrome-apps-storage" />
+  <dependency id="cordova-plugin-background-app" />
 
   <!-- Javascript modules. Note that some module names differ from the chrome API locations -->
   <js-module src="api/app/window.js" name="app.window">
