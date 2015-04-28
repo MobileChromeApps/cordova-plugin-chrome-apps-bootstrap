@@ -4,11 +4,11 @@
 
 var cordova = require('cordova');
 var exec = require('cordova/exec');
-var Event = require('org.chromium.common.events');
-var mobile = require('org.chromium.bootstrap.mobile.impl');
-var runtime = require('org.chromium.runtime.runtime');
-var ChromeExtensionURLs = require('org.chromium.bootstrap.helpers.ChromeExtensionURLs');
-var backgroundapp = require('org.chromium.backgroundapp.backgroundapp');
+var Event = require('cordova-plugin-chrome-apps-common.events');
+var mobile = require('cordova-plugin-chrome-apps-bootstrap.mobile.impl');
+var runtime = require('cordova-plugin-chrome-apps-runtime.runtime');
+var ChromeExtensionURLs = require('cordova-plugin-chrome-apps-bootstrap.helpers.ChromeExtensionURLs');
+var backgroundapp = require('cordova-plugin-background-app.backgroundapp');
 
 // The AppWindow created by chrome.app.window.create.
 var createdAppWindow = null;

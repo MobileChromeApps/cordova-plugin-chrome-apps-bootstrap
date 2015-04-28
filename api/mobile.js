@@ -4,12 +4,12 @@
 
 var cordova = require('cordova');
 var channel = require('cordova/channel');
-var runtime = require('org.chromium.runtime.runtime');
-var app_runtime = require('org.chromium.runtime.app.runtime');
-var storage = require('org.chromium.storage.Storage');
-var backgroundapp = require('org.chromium.backgroundapp.backgroundapp');
+var runtime = require('cordova-plugin-chrome-apps-runtime.runtime');
+var app_runtime = require('cordova-plugin-chrome-apps-runtime.app.runtime');
+var storage = require('cordova-plugin-chrome-apps-storage.Storage');
+var backgroundapp = require('cordova-plugin-background-app.backgroundapp');
 // Make sure the "isChromeApp" var gets set before replaceState().
-require('org.chromium.common.helpers');
+require('cordova-plugin-chrome-apps-common.helpers');
 
 exports.fgWindow = window;
 exports.bgWindow = null;
@@ -165,7 +165,7 @@ function fireLifecycleEvents(manifestJson) {
 function fireOnLaunched() {
   // Execute this only once.
   fireOnLaunched = function() {};
-  var app_window = require('org.chromium.bootstrap.app.window');
+  var app_window = require('cordova-plugin-chrome-apps-bootstrap.app.window');
   // Don't fire if create() has already been called.
   if (app_window.current()) {
     return;
