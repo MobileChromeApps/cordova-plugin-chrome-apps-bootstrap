@@ -1,0 +1,37 @@
+{
+  "name": "cordova-plugin-chrome-apps-bootstrap",
+  "version": "2.0.5-dev",
+  "description": "This plugin contains the code used to wrap a Chrome app and make it run using Cordova. It is meant to be used with the `cca` tool, and isn't useful outside the context of a mobile Chrome App.",
+  "cordova": {
+    "id": "cordova-plugin-chrome-apps-bootstrap",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MobileChromeApps/cordova-plugin-chrome-apps-bootstrap.git"
+  },
+  "keywords": [
+    "chrome",
+    "core",
+    "bootstrap",
+    "window",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MobileChromeApps/cordova-plugin-chrome-apps-bootstrap/issues"
+  },
+  "homepage": "https://github.com/MobileChromeApps/cordova-plugin-chrome-apps-bootstrap"
+}
