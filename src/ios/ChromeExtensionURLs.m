@@ -61,7 +61,7 @@ static NSString* determineMimeType(NSString* path) {
 
 - (BOOL)shouldOverrideLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
     if (pathPrefix == nil) {
-        if ([request.mainDocumentURL.path hasSuffix:@"www/plugins/org.chromium.bootstrap/chromeapp.html"]) {
+        if ([request.mainDocumentURL.path hasSuffix:@"www/plugins/cordova-plugin-chrome-apps-bootstrap/chromeapp.html"]) {
             pathPrefix = [[[request.mainDocumentURL.path stringByDeletingLastPathComponent] stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
         }
     }
