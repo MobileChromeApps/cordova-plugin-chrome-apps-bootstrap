@@ -13,8 +13,8 @@
 
   <name>Chrome Apps Core</name>
   <keywords>chrome,core,bootstrap,window</keywords>
-  <repo>https://github.com/MobileChromeApps/mobile-chrome-apps.git</repo>
-  <issue>https://github.com/MobileChromeApps/mobile-chrome-apps/issues</issue>
+  <repo>https://github.com/MobileChromeApps/cordova-plugin-chrome-apps-bootstrap.git</repo>
+  <issue>https://github.com/MobileChromeApps/cordova-plugin-chrome-apps-bootstrap/issues</issue>
 
   <dependency id="cordova-plugin-chrome-apps-common" />
   <dependency id="cordova-plugin-chrome-apps-runtime" />
