@@ -26,6 +26,9 @@ The API references are:
 
 # Release Notes
 
+## 2.0.5 (April 30, 2015)
+- Renamed plugin to pubilsh to NPM
+
 ## 2.0.4 (Mar 31, 2015)
 * Fix crash on device (issue #2)
 
