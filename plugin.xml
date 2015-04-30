@@ -16,10 +16,10 @@
   <repo>https://github.com/MobileChromeApps/cordova-plugin-chrome-apps-bootstrap.git</repo>
   <issue>https://github.com/MobileChromeApps/cordova-plugin-chrome-apps-bootstrap/issues</issue>
 
-  <dependency id="cordova-plugin-chrome-apps-common" />
-  <dependency id="cordova-plugin-chrome-apps-runtime" />
-  <dependency id="cordova-plugin-chrome-apps-storage" />
-  <dependency id="cordova-plugin-background-app" />
+  <dependency id="cordova-plugin-chrome-apps-common@1" />
+  <dependency id="cordova-plugin-chrome-apps-runtime@1" />
+  <dependency id="cordova-plugin-chrome-apps-storage@1" />
+  <dependency id="cordova-plugin-background-app@2" />
 
   <!-- Javascript modules. Note that some module names differ from the chrome API locations -->
   <js-module src="api/app/window.js" name="app.window">
