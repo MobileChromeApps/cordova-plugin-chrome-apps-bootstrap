@@ -26,6 +26,9 @@ The API references are:
 
 # Release Notes
 
+## 2.0.6 (May 19, 2015)
+- Fix window.open being clobbered by InAppBrowser (regression in previous release)
+
 ## 2.0.5 (April 30, 2015)
 - Renamed plugin to pubilsh to NPM
 
