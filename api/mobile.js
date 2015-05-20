@@ -36,16 +36,7 @@ function createBgChrome() {
 }
 
 function restoreWindowOpen(context) {
-  var inAppBrowser;
-  try {
-      inAppBrowser = require('org.apache.cordova.inappbrowser.inappbrowser');
-  } catch(e) {}
-
-  if (!inAppBrowser) {
-    // InAppBrowser plugin is not available, so no restore needed
-    return;
-  }
-
+  // Remove's InAppBrowser's override when present.
   delete context.open;
 }
 
