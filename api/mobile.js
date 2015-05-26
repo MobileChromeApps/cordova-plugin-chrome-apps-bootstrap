@@ -80,11 +80,6 @@ exports.bgInit = function(bgWnd) {
 
   // Undo the clobber of window.open by InAppBrowser
   restoreWindowOpen(exports.bgWindow);
-
-  // HACK: Make the bg page use the foreground windows possibly polyfill'ed XHR
-  // This breaks relative URLs if fgWnd and bgWnd are at different paths.
-  // Could be fixed by just re-applying the polyfill in the background page.
-  bgWnd.XMLHttpRequest = XMLHttpRequest;
   bgWnd.chrome = createBgChrome();
   exports.fgWindow.opener = exports.bgWindow;
 
