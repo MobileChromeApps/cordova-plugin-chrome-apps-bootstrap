@@ -26,6 +26,9 @@ The API references are:
 
 # Release Notes
 
+## 2.0.7 (May 26, 2015)
+- Fix XMLHttpRequest made from background page sometimes resolving relative URLs incorrectly
+
 ## 2.0.6 (May 19, 2015)
 - Fix window.open being clobbered by InAppBrowser (regression in previous release)
 
