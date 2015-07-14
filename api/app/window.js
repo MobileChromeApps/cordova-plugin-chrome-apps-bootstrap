@@ -200,7 +200,7 @@ function rewritePage(pageContent, filePath, callback) {
   pageContent = pageContent.slice(bodyPattern.lastIndex);
   applyAttributes((bodyMatch && bodyMatch[1]) || '', fgBody); // removes the style attr if no match.
 
-  fgHead.insertAdjacentHTML('beforeend', '<link rel="stylesheet" href="' + runtime.getURL('plugins/org.chromium.bootstrap/chromeappstyles.css') + '">');
+  fgHead.insertAdjacentHTML('beforeend', '<link rel="stylesheet" href="' + runtime.getURL('plugins/cordova-plugin-chrome-apps-bootstrap/chromeappstyles.css') + '">');
   fgHead.insertAdjacentHTML('beforeend', headHtml);
   evalScripts(fgHead, function() {
     mobile.eventIframe.insertAdjacentHTML('afterend', pageContent);
