@@ -6,7 +6,7 @@
 -->
 <plugin xmlns="http://cordova.apache.org/ns/plugins/1.0"
     id="cordova-plugin-chrome-apps-bootstrap"
-    version="2.0.8-dev">
+    version="2.0.9-dev">
   <engines>
     <engine name="cordova" version=">=3.0.0" />
   </engines>

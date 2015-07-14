@@ -26,6 +26,9 @@ The API references are:
 
 # Release Notes
 
+## 2.0.8 (July 13, 2015)
+- Fix chromeappstyles.css not being applied
+
 ## 2.0.7 (May 26, 2015)
 - Fix XMLHttpRequest made from background page sometimes resolving relative URLs incorrectly
 
