@@ -18,7 +18,6 @@
 }
 @end
 
-static NSString* const kChromeExtensionURLScheme = @"chrome-extension";
 static ChromeURLProtocol *outstandingDelayRequest = nil;
 static NSString* pathPrefix = nil;
 static BOOL registeredProtocol = NO;
@@ -100,7 +99,10 @@ static NSString* determineMimeType(NSString* path) {
 + (BOOL)canInitWithRequest:(NSURLRequest*)request
 {
     NSURL* url = [request URL];
-    return pathPrefix != nil && [[url scheme] isEqualToString:kChromeExtensionURLScheme] && ![[url path] isEqualToString:@"/!gap_exec"];
+    // Refer to comment in implementation of chrome.runtime.getURL().
+    BOOL isChromeScheme = [[url scheme] isEqualToString:@"chrome-extension"] ||
+                          [[url scheme] isEqualToString:@"gopher"];
+    return pathPrefix != nil && isChromeScheme && ![[url path] isEqualToString:@"/!gap_exec"];
 }
 
 + (NSURLRequest*)canonicalRequestForRequest:(NSURLRequest*)request

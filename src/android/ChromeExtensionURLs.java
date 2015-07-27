@@ -27,6 +27,16 @@ public class ChromeExtensionURLs extends CordovaPlugin {
         return uri;
     }
 
+    public static boolean isChromeAppUrl(String url) {
+        // Refer to comment in implementation of chrome.runtime.getURL().
+        return url.startsWith("chrome-extension:") || url.startsWith("gopher:");
+    }
+
+    public static boolean isChromeAppUrl(Uri url) {
+        String scheme = url.getScheme();
+        return "chrome-extension".equals(scheme) || "gopher".equals(scheme);
+    }
+
     @Override
     public Object onMessage(String id, Object data) {
         if (baseUrl == null && "onPageStarted".equals(id)) {
@@ -39,7 +49,7 @@ public class ChromeExtensionURLs extends CordovaPlugin {
     // @Override
     public Boolean shouldAllowNavigation(String url) {
         // Required for iframes.
-        if (url.startsWith("chrome-extension:")) {
+        if (isChromeAppUrl(url)) {
             return true;
         }
         return null;
@@ -47,7 +57,7 @@ public class ChromeExtensionURLs extends CordovaPlugin {
 
     // @Override
     public Boolean shouldAllowRequest(String url) {
-        if (url.startsWith("chrome-extension:")) {
+        if (isChromeAppUrl(url)) {
             return true;
         }
         return null;
@@ -58,7 +68,7 @@ public class ChromeExtensionURLs extends CordovaPlugin {
         // Check the scheme to see if we need to handle.
         // Also ensure we haven't intercepted it before
         //  If this check wasn't present, the content-loaded section would go into an infinite loop of data retrieval attempts
-        if (!uri.getScheme().equals("chrome-extension")) {
+        if (!isChromeAppUrl(uri)) {
             return null;
         }
 
@@ -71,7 +81,7 @@ public class ChromeExtensionURLs extends CordovaPlugin {
         }
         
         // i18n can return data URIs.
-        if (uri.getScheme().equals("chrome-extension")) {
+        if (isChromeAppUrl(uri)) {
             uri = remapToRealLocation(uri);
         }
 

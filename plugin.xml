@@ -54,8 +54,6 @@
         <param name="onload" value="true"/>
       </feature>
 
-      <access origin="chrome-extension://*" />
-
       <preference name="DisallowOverscroll" value="true" />
     </config-file>
   </platform>
