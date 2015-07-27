@@ -26,6 +26,9 @@ The API references are:
 
 # Release Notes
 
+## 3.0.0 (July 27, 2015)
+- Switch from chrome-extension: to gopher: to fix apps being broken on latest Andrew WebView (http://crbug.com/513352)
+
 ## 2.0.8 (July 13, 2015)
 - Fix chromeappstyles.css not being applied
 
