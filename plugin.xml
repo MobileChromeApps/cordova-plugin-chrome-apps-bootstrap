@@ -17,7 +17,7 @@
   <issue>https://github.com/MobileChromeApps/cordova-plugin-chrome-apps-bootstrap/issues</issue>
 
   <dependency id="cordova-plugin-chrome-apps-common@1" />
-  <dependency id="cordova-plugin-chrome-apps-runtime@1" />
+  <dependency id="cordova-plugin-chrome-apps-runtime@2" />
   <dependency id="cordova-plugin-chrome-apps-storage@1" />
   <dependency id="cordova-plugin-background-app@2" />
 
